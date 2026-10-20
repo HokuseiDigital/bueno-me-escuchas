@@ -12,3 +12,4 @@ un problema a la vez. Cada paso tiene su archivo con:
 | Paso | Tema | Problema que descubre |
 |---|---|---|
 | [01](01-quickstart.md) | Quickstart de LiveKit, sin cambios | Habla como gringo |
+| [02](02-espanol.md) | Español de México: STT, instrucciones y voz | _Por llenar_ |

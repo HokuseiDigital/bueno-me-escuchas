@@ -20,6 +20,23 @@ logger = logging.getLogger("agent")
 load_dotenv(".env.local")
 
 
+# Voces de Fish Audio en español de México (https://fish.audio/m/<id>)
+VOCES = {
+    # Jóvenes, conversacionales
+    "joss": "a3dbc290e8784890a923a023da52f1e7",  # Joss Mexico: hombre, amigable, expresivo
+    "mexicano_social": "64442e2752c2426382fed81d2611ba37",  # hombre, relajado, de redes sociales
+    "mexicano": "0cb0b358bb9b48b4a0572ec6e3a98429",  # hombre, sin etiquetas de estilo
+    "mexico_narradora": "961548527ae042848dfaa99c1a3f9c2e",  # mujer, narración clara
+    # Adultas, tono profesional
+    "mexico_maestra": "d56c13ab56434045a76149c3052a21ac",  # mujer, educativa, calmada
+    "mexico_anuncio": "5f5528f96a0148178a297332777dc547",  # hombre, enérgico, comercial
+    # Locutores de radio
+    "mexico_radio_grave": "ca79d7933b3e44ed920ed9a1bf390a81",  # hombre, voz grave
+    "frnt_mexico": "343056c4aa8244838dcfdd53f9546fb7",  # hombre mayor, enérgico
+    "mexico_radio_calido": "43790f1f1ad745c4999d5fcaaa1c8d55",  # hombre mayor, cálido
+}
+
+
 class Assistant(Agent):
     def __init__(self) -> None:
         super().__init__(
@@ -35,6 +52,8 @@ class Assistant(Agent):
             instructions=textwrap.dedent(
                 """\
                 You are a friendly, reliable voice assistant that answers questions, explains topics, and completes tasks with available tools.
+
+                You always respond in Spanish.
 
                 # Output rules
 
@@ -102,7 +121,7 @@ async def my_agent(ctx: JobContext):
     session = AgentSession(
         # Speech-to-text (STT) is your agent's ears, turning the user's speech into text that the LLM can understand
         # See all available models at https://docs.livekit.io/agents/models/stt/
-        stt=inference.STT(model="assemblyai/universal-3-6-pro", language="en"),
+        stt=inference.STT(model="assemblyai/universal-3-6-pro", language="es"),
         # Keyterms bias the STT toward distinctive words it would otherwise misspell.
         # List your own names, brands, and jargon in `keyterms`. Detection additionally
         # extracts terms from the live conversation, such as a caller's name, and applies
@@ -115,7 +134,7 @@ async def my_agent(ctx: JobContext):
         # Text-to-speech (TTS) is your agent's voice, turning the LLM's text into speech that the user can hear
         # See all available models as well as voice selections at https://docs.livekit.io/agents/models/tts/
         tts=inference.TTS(
-            model="fishaudio/s2.1-pro", voice="fa4c9eb3dccc4806b382b40d61c6b10a"
+            model="fishaudio/s2.1-pro", voice=VOCES["joss"]
         ),
         turn_handling=TurnHandlingOptions(
             # The LiveKit turn detector determines when the user is done speaking and the agent should respond.
