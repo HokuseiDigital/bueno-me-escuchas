@@ -12,4 +12,5 @@ un problema a la vez. Cada paso tiene su archivo con:
 | Paso | Tema | Problema que descubre |
 |---|---|---|
 | [01](01-quickstart.md) | Quickstart de LiveKit, sin cambios | Habla como gringo |
-| [02](02-espanol.md) | Español de México: STT, instrucciones y voz | _Por llenar_ |
+| [02](02-espanol.md) | Español de México: STT, instrucciones y voz | Finge que busca |
+| [03](03-herramientas.md) | Primera herramienta: eventos reales con `mxtw` | _Por llenar_ |

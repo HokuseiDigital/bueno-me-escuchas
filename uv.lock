@@ -19,6 +19,7 @@ source = { editable = "." }
 dependencies = [
     { name = "livekit-agents" },
     { name = "livekit-plugins-ai-coustics" },
+    { name = "mxtw" },
     { name = "python-dotenv" },
 ]
 
@@ -33,6 +34,7 @@ dev = [
 requires-dist = [
     { name = "livekit-agents", specifier = "~=1.8" },
     { name = "livekit-plugins-ai-coustics", specifier = "~=0.3" },
+    { name = "mxtw", git = "https://github.com/HokuseiDigital/mxtw" },
     { name = "python-dotenv" },
 ]
 
@@ -1396,6 +1398,11 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/7f/95/64dd049bb4c53426e2fee7afb874daaa8b4426c41878785883a94511ecf8/multidict-6.9.1-cp314-cp314t-win_arm64.whl", hash = "sha256:ac348379cf4de5538a0a213be1532d289aa801ec5d267c5909446b9ea2f8e2c3", size = 58582, upload-time = "2026-09-21T17:57:36.19Z" },
     { url = "https://files.pythonhosted.org/packages/be/59/e26cb779be4c591d1a910f59d29aca9fba4de70349840a833beba2652371/multidict-6.9.1-py3-none-any.whl", hash = "sha256:7bf6478188f4e47bf5686e8a33da4ae28bf43b1b2528d9ee144d28492bfac60b", size = 19176, upload-time = "2026-09-21T17:59:03.501Z" },
 ]
+
+[[package]]
+name = "mxtw"
+version = "0.1.0"
+source = { git = "https://github.com/HokuseiDigital/mxtw#9b09c3c102d1a39f1b200c79724169e57579b2e7" }
 
 [[package]]
 name = "nest-asyncio"
