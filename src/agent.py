@@ -7,17 +7,16 @@ from livekit.agents import (
     AgentServer,
     AgentSession,
     JobContext,
-    # RunContext,  # Paso 3: descomenta
+    RunContext,
     STTContextOptions,
     TurnHandlingOptions,
     cli,
-    # function_tool,  # Paso 3: descomenta
+    function_tool,
     inference,
     room_io,
 )
 from livekit.plugins import ai_coustics
-
-# from mxtw import eventos_del_dia  # Paso 3: descomenta
+from mxtw import eventos_del_dia
 
 logger = logging.getLogger("agent")
 
@@ -110,18 +109,17 @@ class Assistant(Agent):
     # async def on_enter(self) -> None:
     #     self.session.generate_reply()
 
-    # Paso 3: descomenta la herramienta (y RunContext, function_tool y eventos_del_dia
-    # arriba). El docstring es lo que lee el LLM para decidir cuándo llamarla.
-    # @function_tool
-    # async def buscar_eventos(self, context: RunContext, dia: str) -> str:
-    #     """Busca los eventos reales de Mexico Tech Week 2026 de un día.
-    #
-    #     Args:
-    #         dia: La fecha en formato AAAA-MM-DD. Mexico Tech Week va del domingo
-    #             25 al miércoles 28 de octubre de 2026.
-    #     """
-    #     logger.info(f"Buscando eventos del {dia}")
-    #     return eventos_del_dia(dia)
+    # El docstring es lo que lee el LLM para decidir cuándo llamarla.
+    @function_tool
+    async def buscar_eventos(self, context: RunContext, dia: str) -> str:
+        """Busca los eventos reales de Mexico Tech Week 2026 de un día.
+
+        Args:
+            dia: La fecha en formato AAAA-MM-DD. Mexico Tech Week va del domingo
+                25 al miércoles 28 de octubre de 2026.
+        """
+        logger.info(f"Buscando eventos del {dia}")
+        return eventos_del_dia(dia)
 
 
 server = AgentServer()
