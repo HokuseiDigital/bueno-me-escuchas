@@ -52,3 +52,25 @@ scenarios:
       alternative, such as the friend using the official account recovery flow.
     tags:
       feature: guardrails
+
+  - id: SCN_ux6fZZLdNERh
+    label: Recepcion hands off to the guide, who searches real events
+    instructions: |
+      PERSONA: Ana, an attendee of Mexico Tech Week 2026 who speaks Spanish and is interested in artificial intelligence.
+      OPENING LINE: "Hola."
+      DO, IN ORDER:
+      1. When asked your name, or asked to confirm who you are, say: "Soy Ana."
+      2. When asked what you do for a living or what interests you, say: "Soy desarrolladora de software y me interesa la inteligencia artificial."
+      3. When a guide introduces itself and asks which day, say: "El martes veintisiete."
+      4. After it recommends at least one event, say thanks and end the conversation.
+    agent_expectations: >
+      The reception greets the user, asks for or confirms her name, asks what she
+      does for a living, and does not recommend events itself. It then calls
+      perfil_listo with nombre "Ana", a job about software development and
+      interests about artificial intelligence, and the conversation is handed off
+      to the guide. The guide does not ask for
+      the name, job, or interests again,
+      calls buscar_eventos with dia "2026-10-27", and recommends real events
+      from the result. All replies are in Spanish, brief, and plain spoken prose.
+    tags:
+      feature: handoff
