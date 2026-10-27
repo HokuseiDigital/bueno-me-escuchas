@@ -48,18 +48,13 @@ export async function POST(req: Request) {
 
     const roomName = `voice_assistant_room_${Math.floor(Math.random() * 10_000)}`;
 
-    // Who is calling. The quickstart makes up a random user.
+    // Who is calling: the user comes from your app's session
+    const usuario = usuarioDeTuSesion();
     const participant: AccessTokenOptions = {
-      identity: `voice_assistant_user_${Math.floor(Math.random() * 10_000)}`,
-      name: 'user',
+      identity: usuario.id,
+      name: usuario.nombre,
+      attributes: { intereses: usuario.intereses },
     };
-    // Paso 5: cambia el bloque de arriba por este. El usuario sale del JWT de tu app.
-    // const usuario = usuarioDeTuSesion();
-    // const participant: AccessTokenOptions = {
-    //   identity: usuario.id,
-    //   name: usuario.nombre,
-    //   attributes: { intereses: usuario.intereses },
-    // };
 
     const participantToken = await livekitToken(participant, roomName, roomConfig);
 
@@ -109,9 +104,9 @@ function livekitToken(
   return at.toJwt();
 }
 
-// Paso 5: descomenta. Tu app ya está detrás de un login: tu middleware verificó la
-// sesión (cookie o JWT) y te dice quién es. Para el taller lo fingimos con un usuario
-// fijo: cambia el nombre y escucha cómo el agente te saluda.
-// function usuarioDeTuSesion() {
-//   return { id: 'usuario_max', nombre: 'Max', intereses: 'inteligencia artificial' };
-// }
+// Tu app ya está detrás de un login: tu middleware verificó la sesión (cookie o JWT)
+// y te dice quién es. Para el taller lo fingimos con un usuario fijo: cambia el
+// nombre y escucha cómo el agente te saluda.
+function usuarioDeTuSesion() {
+  return { id: 'usuario_max', nombre: 'Max', intereses: 'inteligencia artificial' };
+}

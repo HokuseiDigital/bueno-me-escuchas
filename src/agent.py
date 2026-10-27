@@ -42,9 +42,7 @@ VOCES = {
 
 
 class Assistant(Agent):
-    def __init__(self) -> None:
-        # Paso 5: cambia la línea de arriba por esta
-        # def __init__(self, nombre: str, intereses: str) -> None:
+    def __init__(self, nombre: str, intereses: str) -> None:
         super().__init__(
             # A Large Language Model (LLM) is your agent's brain, processing user input and generating a response
             # See all available models at https://docs.livekit.io/agents/models/llm/
@@ -57,13 +55,13 @@ class Assistant(Agent):
             #    llm="openai/gpt-live-1",
             instructions="\n\n".join(
                 [
-                    # Paso 5: descomenta. Lo que ya sabemos del usuario llega en el token.
-                    # (
-                    #     f"Hablas con {nombre}, a quien le interesa {intereses}. "
-                    #     "Salúdalo por su nombre y no le preguntes cómo se llama."
-                    #     if nombre
-                    #     else "No sabes con quién hablas."
-                    # ),
+                    # Lo que ya sabemos del usuario llega en el token
+                    (
+                        f"Hablas con {nombre}, a quien le interesa {intereses}. "
+                        "Salúdalo por su nombre y no le preguntes cómo se llama."
+                        if nombre
+                        else "No sabes con quién hablas."
+                    ),
                     "You always respond in Spanish.",
                     textwrap.dedent(
                         """\
@@ -104,10 +102,9 @@ class Assistant(Agent):
             ),
         )
 
-    # Paso 5: descomenta para que el agente hable primero y salude por su nombre.
-    # Va junto con el bloque de ctx.connect() en my_agent: hay que estar en la sala.
-    # async def on_enter(self) -> None:
-    #     self.session.generate_reply()
+    # El agente habla primero y saluda por su nombre
+    async def on_enter(self) -> None:
+        self.session.generate_reply()
 
     # El docstring es lo que lee el LLM para decidir cuándo llamarla.
     @function_tool
@@ -174,26 +171,24 @@ async def my_agent(ctx: JobContext):
         expressive=True,
     )
 
-    # Paso 5: descomenta. El agente entra a la sala, espera al usuario y lee su token.
-    # Entrar antes de session.start es lo que deja que on_enter salude primero.
-    # await ctx.connect()
-    # # lk agent console y el debugger no traen participante ni token: ahí no hay nombre
-    # nombre, intereses = "", ""
-    # if not ctx.is_fake_job():
-    #     participante = await ctx.wait_for_participant()
-    #     # Todo lo que firmó frontend/app/api/token/route.ts
-    #     logger.info(
-    #         f"Token: identity={participante.identity} name={participante.name} "
-    #         f"attributes={participante.attributes}"
-    #     )
-    #     nombre = participante.name
-    #     intereses = participante.attributes.get("intereses", "")
+    # El agente entra a la sala, espera al usuario y lee su token. Entrar antes
+    # de session.start es lo que deja que on_enter salude primero.
+    await ctx.connect()
+    # lk agent console y el debugger no traen participante ni token: ahí no hay nombre
+    nombre, intereses = "", ""
+    if not ctx.is_fake_job():
+        participante = await ctx.wait_for_participant()
+        # Todo lo que firmó frontend/app/api/token/route.ts
+        logger.info(
+            f"Token: identity={participante.identity} name={participante.name} "
+            f"attributes={participante.attributes}"
+        )
+        nombre = participante.name
+        intereses = participante.attributes.get("intereses", "")
 
     # Start the session, which initializes the voice pipeline and warms up the models
     await session.start(
-        agent=Assistant(),
-        # Paso 5: cambia la línea de arriba por esta
-        # agent=Assistant(nombre, intereses),
+        agent=Assistant(nombre, intereses),
         room=ctx.room,
         room_options=room_io.RoomOptions(
             audio_input=room_io.AudioInputOptions(
