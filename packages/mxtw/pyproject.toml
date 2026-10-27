@@ -1,0 +1,14 @@
+[project]
+name = "mxtw"
+version = "0.1.0"
+description = "Eventos de Mexico Tech Week 2026, listos para un agente de voz"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = ["pytest"]
